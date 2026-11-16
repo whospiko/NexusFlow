@@ -22,7 +22,7 @@ export function Navbar({ onOpenCreateModal, onOpenCreateProjectModal }) {
   const handleCreate = onOpenCreateProjectModal || onOpenCreateModal;
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout, authUsers, devLogin } = useAuth();
+  const { user, logout } = useAuth();
   const { theme, toggleTheme, isDark } = useTheme();
   const { t } = useLanguage();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -38,17 +38,6 @@ export function Navbar({ onOpenCreateModal, onOpenCreateProjectModal }) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleSwitchAccount = async (u) => {
-    try {
-      await devLogin(u.email, u.name);
-      setDropdownOpen(false);
-      // Reload or navigate to refresh scoped projects
-      navigate(0);
-    } catch {
-      // Ignored
-    }
-  };
 
   const handleLogout = () => {
     logout();
@@ -218,31 +207,10 @@ export function Navbar({ onOpenCreateModal, onOpenCreateProjectModal }) {
                   </div>
                 </div>
 
-                {/* Account Switcher Section */}
-                <div className="px-3.5 pt-2 pb-1 text-[10px] uppercase font-bold text-[#8c9bab] tracking-wider">
-                  {t('nav.switchAccount')}
-                </div>
-                {authUsers &&
-                  authUsers.map((u) => (
-                    <button
-                      key={u.id}
-                      type="button"
-                      onClick={() => handleSwitchAccount(u)}
-                      className={`w-full text-left px-3.5 py-1.5 hover:bg-[#16233b] flex items-center justify-between transition-colors ${
-                        user.email === u.email ? 'text-blue-400 font-bold bg-[#16233b]/60' : ''
-                      }`}
-                    >
-                      <span className="truncate">{u.name} ({u.email.split('@')[0]})</span>
-                      {user.email === u.email && <span>✓</span>}
-                    </button>
-                  ))}
-
-                <div className="my-1 border-t border-[#223554]" />
-
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="w-full text-left px-3.5 py-2 hover:bg-red-950/40 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors cursor-pointer"
+                  className="w-full text-left px-3.5 py-2 hover:bg-red-950/40 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors cursor-pointer mt-1"
                 >
                   <LogOut size={14} />
                   <span>{t('nav.logOut')}</span>

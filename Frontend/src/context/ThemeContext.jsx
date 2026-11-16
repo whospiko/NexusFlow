@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   // Light mode is the default per user requirement
   const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem('jira_theme');
+    const saved = localStorage.getItem('nexusflow_theme') || localStorage.getItem('jira_theme');
     return saved === 'dark' ? 'dark' : 'light';
   });
 
@@ -18,6 +18,7 @@ export function ThemeProvider({ children }) {
       root.classList.remove('dark');
       root.classList.add('light');
     }
+    localStorage.setItem('nexusflow_theme', theme);
     localStorage.setItem('jira_theme', theme);
   }, [theme]);
 

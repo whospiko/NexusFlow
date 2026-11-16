@@ -3,8 +3,9 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
-import { ShieldCheck, AlertTriangle, CheckCircle2, Mail, ArrowRight, UserCheck, LogIn } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, CheckCircle2, Mail, ArrowRight, UserCheck, LogIn, Sun, Moon } from 'lucide-react';
 
 export default function AcceptInvitePage() {
   const [searchParams] = useSearchParams();
@@ -12,6 +13,7 @@ export default function AcceptInvitePage() {
   const navigate = useNavigate();
   const { user, devLogin, logout } = useAuth();
   const { t } = useLanguage();
+  const { toggleTheme, isDark } = useTheme();
 
   const [invitation, setInvitation] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -95,8 +97,20 @@ export default function AcceptInvitePage() {
       {/* Background Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Top Bar with Language Switcher */}
-      <div className="absolute top-6 right-6 z-20">
+      {/* Top Bar with Theme Toggle & Language Switcher */}
+      <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="p-1.5 rounded-lg border border-[#223554] bg-[#0e1726] hover:bg-[#1a2536] text-[#dfe1e6] hover:text-[#579dff] transition-all cursor-pointer shadow-sm flex items-center justify-center"
+          title={isDark ? t('nav.lightMode') : t('nav.darkMode')}
+        >
+          {isDark ? (
+            <Sun size={17} className="text-amber-400 hover:rotate-45 transition-transform" />
+          ) : (
+            <Moon size={17} className="text-indigo-400 hover:-rotate-12 transition-transform" />
+          )}
+        </button>
         <LanguageSwitcher variant="simple" />
       </div>
 
@@ -106,7 +120,7 @@ export default function AcceptInvitePage() {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#0052cc] text-white shadow-lg shadow-blue-500/20 mb-3">
             <Mail className="w-6 h-6" />
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">{t('acceptInvite.title')}</h1>
+          <h1 className="text-2xl font-bold text-[#dfe1e6] tracking-tight">{t('acceptInvite.title')}</h1>
           <p className="text-xs text-[#8c9bab] mt-1 font-medium">{t('acceptInvite.subtitle')}</p>
         </div>
 

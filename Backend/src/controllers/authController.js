@@ -1,5 +1,10 @@
 import { signToken, findOrCreateUser, getUserById, getAllUsers } from '../services/authService.js';
 
+function formatAuthRedirect(frontendUrl, paramStr) {
+  const cleanBase = (frontendUrl || 'http://localhost:3000').replace(/\/+$/, '');
+  return `${cleanBase}/login?${paramStr}`;
+}
+
 /**
  * GET /api/auth/google - Initiate Google OAuth
  */
@@ -28,7 +33,7 @@ export async function handleGoogleCallback(req, res) {
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 
   if (error || !code) {
-    return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(error || 'Authorization denied')}`);
+    return res.redirect(formatAuthRedirect(frontendUrl, `error=${encodeURIComponent(error || 'Authorization denied')}`));
   }
 
   try {
@@ -77,10 +82,10 @@ export async function handleGoogleCallback(req, res) {
     const token = signToken(user);
 
     // 5. Redirect to Frontend with token
-    res.redirect(`${frontendUrl}/login?token=${token}`);
+    res.redirect(formatAuthRedirect(frontendUrl, `token=${token}`));
   } catch (err) {
     console.error('Google OAuth Callback Error:', err);
-    res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(err.message)}`);
+    res.redirect(formatAuthRedirect(frontendUrl, `error=${encodeURIComponent(err.message)}`));
   }
 }
 
@@ -110,7 +115,7 @@ export async function handleGithubCallback(req, res) {
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 
   if (error || !code) {
-    return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(error || 'Authorization denied')}`);
+    return res.redirect(formatAuthRedirect(frontendUrl, `error=${encodeURIComponent(error || 'Authorization denied')}`));
   }
 
   try {
@@ -178,10 +183,10 @@ export async function handleGithubCallback(req, res) {
     const token = signToken(user);
 
     // 5. Redirect to Frontend with token
-    res.redirect(`${frontendUrl}/login?token=${token}`);
+    res.redirect(formatAuthRedirect(frontendUrl, `token=${token}`));
   } catch (err) {
     console.error('GitHub OAuth Callback Error:', err);
-    res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(err.message)}`);
+    res.redirect(formatAuthRedirect(frontendUrl, `error=${encodeURIComponent(err.message)}`));
   }
 }
 

@@ -32,8 +32,8 @@ export async function sendProjectInvitationEmail({
   role = 'member',
   token,
 }) {
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-  const inviteLink = `${frontendUrl}/invite/accept?token=${encodeURIComponent(token)}`;
+  const cleanBase = (process.env.FRONTEND_URL || 'http://localhost:3000').replace(/\/+$/, '');
+  const inviteLink = `${cleanBase}/invite/accept?token=${encodeURIComponent(token)}`;
   const transporter = getTransporter();
 
   const htmlContent = `

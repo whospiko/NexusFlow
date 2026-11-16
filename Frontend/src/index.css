@@ -363,6 +363,23 @@ html.light {
     color: #172b4d !important;
   }
 
+  /* In Light Mode, text on neutral/card surfaces should be crisp dark #172b4d */
+  [class*="bg-[#16233b]"] [class*="text-white"],
+  [class*="bg-[#16233b]"] [class*="text-[#dfe1e6]"],
+  [class*="bg-[#16233b]"] > span:not([class*="bg-"]),
+  [class*="bg-[#1d2e4d]"] [class*="text-white"],
+  [class*="bg-[#1d2e4d]"] > span:not([class*="bg-"]),
+  [class*="bg-[#111c2e]"] [class*="text-white"],
+  [class*="bg-[#111c2e]"] [class*="text-[#dfe1e6]"],
+  [class*="bg-[#111c2e]"] h1,
+  [class*="bg-[#111c2e]"] h2,
+  [class*="bg-[#111c2e]"] strong,
+  [class*="bg-[#1e2433]"] [class*="text-white"],
+  [class*="bg-[#121622]"] [class*="text-white"],
+  [class*="bg-[#161a23]"] [class*="text-white"] {
+    color: #172b4d !important;
+  }
+
   /* --------------------------------------------------------
      7. HERO GRADIENT BANNERS IN LIGHT MODE
      -------------------------------------------------------- */

@@ -11,7 +11,7 @@
     <script>
       (function() {
         try {
-          var t = localStorage.getItem('jira_theme');
+          var t = localStorage.getItem('nexusflow_theme') || localStorage.getItem('jira_theme');
           if (t === 'dark') {
             document.documentElement.classList.add('dark');
             document.documentElement.classList.remove('light');
