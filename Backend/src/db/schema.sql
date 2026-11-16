@@ -29,8 +29,10 @@ CREATE TABLE users (
     avatar_url TEXT,
     provider VARCHAR(50) NOT NULL DEFAULT 'local', -- 'google', 'github', 'local'
     provider_id VARCHAR(255),
+    is_demo BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+CREATE INDEX idx_users_is_demo ON users(is_demo);
 
 -- Projects Table (Owned by a user)
 CREATE TABLE projects (

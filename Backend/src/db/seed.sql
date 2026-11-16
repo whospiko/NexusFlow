@@ -7,17 +7,18 @@
 -- ==========================================================
 
 -- 1. Seed Users
-INSERT INTO users (id, email, name, avatar_url, provider) VALUES
-(1, 'piko@company.com', 'Piko', 'https://api.dicebear.com/7.x/bottts/svg?seed=Piko', 'local'),
-(2, 'pisey@company.com', 'Pisey', 'https://api.dicebear.com/7.x/bottts/svg?seed=Pisey', 'local'),
-(3, 'alex.v@company.com', 'Alex V.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Alex', 'local'),
-(4, 'devin.r@company.com', 'Devin R.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Devin', 'local'),
-(5, 'sarah.k@company.com', 'Sarah K.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Sarah', 'local'),
-(6, 'jennifer.j@company.com', 'Jennifer J.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Jennifer', 'local')
+INSERT INTO users (id, email, name, avatar_url, provider, is_demo) VALUES
+(1, 'piko@company.com', 'Piko', 'https://api.dicebear.com/7.x/bottts/svg?seed=Piko', 'local', TRUE),
+(2, 'pisey@company.com', 'Pisey', 'https://api.dicebear.com/7.x/bottts/svg?seed=Pisey', 'local', TRUE),
+(3, 'alex.v@company.com', 'Alex V.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Alex', 'local', TRUE),
+(4, 'devin.r@company.com', 'Devin R.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Devin', 'local', TRUE),
+(5, 'sarah.k@company.com', 'Sarah K.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Sarah', 'local', TRUE),
+(6, 'jennifer.j@company.com', 'Jennifer J.', 'https://api.dicebear.com/7.x/bottts/svg?seed=Jennifer', 'local', TRUE)
 ON CONFLICT (id) DO UPDATE SET 
   email = EXCLUDED.email, 
   name = EXCLUDED.name, 
-  avatar_url = EXCLUDED.avatar_url;
+  avatar_url = EXCLUDED.avatar_url,
+  is_demo = TRUE;
 
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
 

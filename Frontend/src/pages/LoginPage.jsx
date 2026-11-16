@@ -21,6 +21,16 @@ export default function LoginPage() {
 
   const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
 
+  // Strictly filter for official demo accounts only (@company.com or is_demo=true)
+  // Ensures real Google/GitHub OAuth accounts are never exposed in the 1-Click Dev Test UI
+  const demoUsers = (authUsers || []).filter(
+    (u) =>
+      (u.is_demo === true || u.email?.endsWith('@company.com')) &&
+      u.provider !== 'google' &&
+      u.provider !== 'github' &&
+      !u.email?.includes('gmail.com')
+  );
+
   // If already logged in and not coming from an OAuth callback token, redirect to dashboard
   useEffect(() => {
     if (user && !searchParams.get('token')) {
@@ -164,8 +174,8 @@ export default function LoginPage() {
 
         {/* Demo Fast Accounts Grid */}
         <div className="space-y-2">
-          {authUsers && authUsers.length > 0 ? (
-            authUsers.map((u) => (
+          {demoUsers && demoUsers.length > 0 ? (
+            demoUsers.map((u) => (
               <button
                 key={u.id}
                 type="button"

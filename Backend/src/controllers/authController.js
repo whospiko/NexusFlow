@@ -1,4 +1,4 @@
-import { signToken, findOrCreateUser, getUserById, getAllUsers } from '../services/authService.js';
+import { signToken, findOrCreateUser, getUserById, getUserByEmail, getDemoUsers, getAllUsers } from '../services/authService.js';
 
 function formatAuthRedirect(frontendUrl, paramStr) {
   const cleanBase = (frontendUrl || 'http://localhost:3000').replace(/\/+$/, '');
@@ -192,6 +192,8 @@ export async function handleGithubCallback(req, res) {
 
 /**
  * POST /api/auth/dev-login - 1-Click Instant Developer / Demo Login
+ * STRICT SECURITY: Only permits designated demo accounts (@company.com or is_demo=true).
+ * Real OAuth accounts (Google/GitHub) are strictly forbidden from bypassing authentication.
  */
 export async function devLogin(req, res, next) {
   try {
@@ -201,18 +203,48 @@ export async function devLogin(req, res, next) {
       return res.status(400).json({ success: false, message: 'Email is required for dev login' });
     }
 
+    const cleanEmail = email.trim().toLowerCase();
+
+    // 1. Strict Security Guard: Protect Real Accounts from Authentication Bypass
+    const existing = await getUserByEmail(cleanEmail);
+
+    if (existing) {
+      const isOAuth = existing.provider === 'google' || existing.provider === 'github';
+      const isRealAccount = !existing.is_demo && !cleanEmail.endsWith('@company.com');
+
+      if (isOAuth || isRealAccount) {
+        return res.status(403).json({
+          success: false,
+          code: 'OAUTH_REQUIRED',
+          message: `The account "${cleanEmail}" is a real protected account (${existing.provider}). Instant 1-Click login is strictly forbidden for real accounts. Please sign in via Google or GitHub OAuth.`,
+        });
+      }
+    } else {
+      // For brand new accounts trying to dev-login: only permit simulated demo company emails in production
+      const isCompanyDemo = cleanEmail.endsWith('@company.com');
+      if (!isCompanyDemo && process.env.NODE_ENV === 'production') {
+        return res.status(403).json({
+          success: false,
+          code: 'DEMO_ACCOUNTS_ONLY',
+          message: 'Instant dev login is only permitted for simulated demo accounts (@company.com).',
+        });
+      }
+    }
+
+    // 2. Safe execution for permitted demo users
     const user = await findOrCreateUser({
-      email: email.trim().toLowerCase(),
-      name: name || email.split('@')[0],
-      avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(email)}`,
+      email: cleanEmail,
+      name: name || cleanEmail.split('@')[0],
+      avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(cleanEmail)}`,
       provider: 'local',
+      isDemo: true,
     });
 
     const token = signToken(user);
 
     res.json({
       success: true,
-      message: `Logged in as ${user.name}`,
+      message: `Logged in as demo user ${user.name}`,
       token,
       user: {
         id: user.id,
@@ -220,6 +252,7 @@ export async function devLogin(req, res, next) {
         name: user.name,
         avatar_url: user.avatar_url,
         provider: user.provider,
+        is_demo: true,
       },
     });
   } catch (err) {
@@ -228,11 +261,12 @@ export async function devLogin(req, res, next) {
 }
 
 /**
- * GET /api/auth/users - Retrieve list of available accounts for demo switching
+ * GET /api/auth/users - Retrieve list of designated demo accounts for testing
+ * Strictly returns only demo accounts, never real OAuth accounts.
  */
 export async function getAuthUsers(req, res, next) {
   try {
-    const users = await getAllUsers();
+    const users = await getDemoUsers();
     res.json({ success: true, data: users });
   } catch (err) {
     next(err);
