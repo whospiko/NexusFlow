@@ -18,6 +18,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(searchParams.get('error') || '');
 
+  const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+
   // If already logged in and not coming from an OAuth callback token, redirect to dashboard
   useEffect(() => {
     if (user && !searchParams.get('token')) {
@@ -105,7 +107,7 @@ export default function LoginPage() {
         <div className="space-y-3">
           {/* Continue with Google */}
           <a
-            href="/api/auth/google"
+            href={`${API_BASE}/auth/google`}
             className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg border border-[#2d4369] bg-[#16233b] hover:bg-[#1d2e4d] text-white font-medium text-sm transition-all duration-150 shadow-sm hover:border-[#388bfd]"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -131,7 +133,7 @@ export default function LoginPage() {
 
           {/* Continue with GitHub */}
           <a
-            href="/api/auth/github"
+            href={`${API_BASE}/auth/github`}
             className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg border border-[#2d4369] bg-[#16233b] hover:bg-[#1d2e4d] text-white font-medium text-sm transition-all duration-150 shadow-sm hover:border-[#388bfd]"
           >
             <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">

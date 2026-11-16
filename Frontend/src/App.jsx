@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import { LanguageProvider } from './context/LanguageContext.jsx';
@@ -124,9 +124,9 @@ export default function App() {
       <FontSizeProvider>
         <ThemeProvider>
           <AuthProvider>
-            <BrowserRouter>
+            <HashRouter>
               <AppContent />
-            </BrowserRouter>
+            </HashRouter>
           </AuthProvider>
         </ThemeProvider>
       </FontSizeProvider>
