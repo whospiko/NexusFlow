@@ -18,8 +18,8 @@ export function useLiveCollaboration({
   useEffect(() => {
     if (!projectId) return;
 
-    // Use current origin or default backend port
-    const socketUrl = window.location.origin;
+    // Use configured socket URL from .env or fallback to window.location.origin
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || window.location.origin;
     const socket = io(socketUrl, {
       transports: ['websocket', 'polling'],
       reconnectionAttempts: 10,
