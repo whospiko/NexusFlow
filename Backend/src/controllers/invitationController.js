@@ -112,7 +112,9 @@ export async function inviteMember(req, res, next) {
 
     res.status(201).json({
       success: true,
-      message: `Invitation sent to ${cleanEmail}. The recipient must verify via Gmail before accessing the team.`,
+      message: mailResult?.delivered
+        ? `Invitation email sent to ${cleanEmail}. The recipient must verify via Gmail before accessing the team.`
+        : `Invitation created for ${cleanEmail}. Direct link is ready to share.`,
       data: invitation,
       emailResult: mailResult,
       inviteLink: mailResult.inviteLink,
@@ -246,7 +248,9 @@ export async function resendInvitation(req, res, next) {
 
     res.json({
       success: true,
-      message: `Verification email resent to ${invitation.invitee_email}`,
+      message: mailResult?.delivered
+        ? `Verification email resent to ${invitation.invitee_email}`
+        : `Verification link updated for ${invitation.invitee_email}. Direct link is ready to share.`,
       inviteLink: mailResult.inviteLink,
       emailResult: mailResult,
     });

@@ -29,8 +29,8 @@ async function runTests() {
   const alexAuth = await alexLogin.json();
   console.log('2. Alex V. logged in (User ID:', alexAuth.user.id, ')');
 
-  // 3. Piko invites a specific Gmail address: dev.target@gmail.com
-  const targetGmail = 'dev.target@gmail.com';
+  // 3. Piko invites a specific Gmail address
+  const targetGmail = `dev.target.${Date.now()}@gmail.com`;
   const inviteRes = await fetch(`${API_BASE}/projects/1/invitations`, {
     method: 'POST',
     headers: {

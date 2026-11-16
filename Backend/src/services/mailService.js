@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 /**
- * Configure Nodemailer transport for Gmail
+ * Configure Nodemailer transport for Gmail with strict timeout safeguards
  */
 function getTransporter() {
   const user = process.env.SMTP_USER;
@@ -11,14 +11,23 @@ function getTransporter() {
     return null; // Fallback mode
   }
 
+  const port = parseInt(process.env.SMTP_PORT || '465', 10);
+  const isSecure = port === 465;
+
   return nodemailer.createTransport({
+    // Using service: 'gmail' uses optimal direct SSL settings for Gmail
+    service: !process.env.SMTP_HOST || process.env.SMTP_HOST === 'smtp.gmail.com' ? 'gmail' : undefined,
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587', 10),
-    secure: false, // TLS via STARTTLS on 587
+    port,
+    secure: isSecure,
     auth: {
       user,
       pass,
     },
+    // Strict connection timeouts to prevent hanging on cloud hosts (like Render free tier)
+    connectionTimeout: 4000, // 4s max to establish TCP socket
+    greetingTimeout: 4000,   // 4s max for SMTP handshake
+    socketTimeout: 5000,     // 5s max for socket inactivity
   });
 }
 
@@ -57,7 +66,7 @@ export async function sendProjectInvitationEmail({
       <body>
         <div class="container">
           <div class="header">
-            <h1>Jira Issue Tracker</h1>
+            <h1>NexusFlow Workspace</h1>
           </div>
           <div class="content">
             <p>Hello,</p>
@@ -80,7 +89,7 @@ export async function sendProjectInvitationEmail({
             <p style="font-size: 12px; color: #97a0af;">This verification link will expire in 7 days.</p>
           </div>
           <div class="footer">
-            Sent by Jira-Style Bug & Issue Tracker System &bull; PERN Architecture
+            Sent by NexusFlow &bull; Next-Gen Agile Workspace & Collaborative Data Architecture Platform
           </div>
         </div>
       </body>
@@ -107,12 +116,28 @@ export async function sendProjectInvitationEmail({
 
   try {
     const fromAddress = process.env.FROM_EMAIL || process.env.SMTP_USER;
-    const info = await transporter.sendMail({
-      from: `"Jira Issue Tracker" <${fromAddress}>`,
+
+    const sendPromise = transporter.sendMail({
+      from: `"NexusFlow Workspace" <${fromAddress}>`,
       to: toEmail,
       subject: `[Invitation] ${inviterName} invited you to join "${projectName}"`,
       html: htmlContent,
     });
+
+    // 4000ms safety timeout: prevents request from hanging if cloud host (Render) drops SMTP port
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(
+        () =>
+          reject(
+            new Error(
+              'SMTP connection timed out (4s). Cloud provider (Render) may block outbound SMTP traffic on ports 587/465.'
+            )
+          ),
+        4000
+      )
+    );
+
+    const info = await Promise.race([sendPromise, timeoutPromise]);
 
     console.log(`✅ Real Gmail invitation sent to ${toEmail}. MessageId: ${info.messageId}`);
     return {
@@ -123,12 +148,12 @@ export async function sendProjectInvitationEmail({
       messageId: info.messageId,
     };
   } catch (err) {
-    console.error('❌ Failed to send email via SMTP:', err.message);
-    // Return the invite link anyway so flow is not stuck
+    console.warn(`⚠️ Notice: Could not deliver email directly via SMTP (${err.message}). Safe fallback engaged.`);
+    // Return the invite link anyway so the invitation workflow never hangs or blocks the user
     return {
       success: true,
       delivered: false,
-      mode: 'smtp-error-fallback',
+      mode: 'smtp-fallback-link',
       inviteLink,
       error: err.message,
     };
