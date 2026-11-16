@@ -1,0 +1,95 @@
+# ==============================================================================
+# NexusFlow - Monorepo Git Ignore (Root)
+# Covers: Backend (Node.js/Express) + Frontend (React/Vite) + Tooling
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment Variables & Secrets (CRITICAL SECURITY)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+*.env.*
+Backend/.env
+Frontend/.env
+!.env.example
+!Backend/.env.example
+!Frontend/.env.example
+
+# ------------------------------------------------------------------------------
+# 2. Dependencies & Package Managers
+# ------------------------------------------------------------------------------
+node_modules/
+Backend/node_modules/
+Frontend/node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 3. Build & Production Bundles
+# ------------------------------------------------------------------------------
+dist/
+Frontend/dist/
+build/
+out/
+.vite/
+Frontend/.vite/
+.parcel-cache/
+
+# ------------------------------------------------------------------------------
+# 4. Logs, Runtime & Process Files
+# ------------------------------------------------------------------------------
+logs/
+*.log
+*.pid
+*.seed
+*.pid.lock
+Backend/logs/
+
+# ------------------------------------------------------------------------------
+# 5. OS & Editor Specific Files
+# ------------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+
+# IDEs & Editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*~
+
+# ------------------------------------------------------------------------------
+# 6. Testing, Temporary & Scratch Files
+# ------------------------------------------------------------------------------
+coverage/
+.nyc_output/
+*.lcov
+tmp/
+temp/
+scratch/
+uploads/
+Backend/uploads/
+*.bak
+*.sql.bak
+

@@ -1,0 +1,735 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "JetBrains Mono", "Kantumruy Pro", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Khmer", monospace, sans-serif;
+  --font-mono: "JetBrains Mono", "Kantumruy Pro", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  /* Default: Jira Theme & Comfortable Font Base */
+  :root {
+    color-scheme: light;
+    font-size: 15.5px;
+  }
+
+  :root.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    font-size: 15.5px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* User-Controlled Font Size Tiers (Compact, Comfortable Default, Large) */
+  html.font-compact {
+    font-size: 14px !important;
+  }
+  html.font-comfortable {
+    font-size: 15.5px !important;
+  }
+  html.font-large {
+    font-size: 17px !important;
+  }
+
+  /* Khmer Optical Harmony:
+     Khmer scripts have complex diacritics & subscripts that require
+     an optical boost (+0.5px to +1px) and generous line-height */
+  html.lang-km,
+  html[lang="km"] {
+    font-size: 16px;
+  }
+  html.lang-km.font-compact {
+    font-size: 14.5px !important;
+  }
+  html.lang-km.font-comfortable {
+    font-size: 16px !important;
+  }
+  html.lang-km.font-large {
+    font-size: 17.5px !important;
+  }
+
+  body {
+    background-color: #f4f5f7;
+    color: #172b4d;
+    font-family: "JetBrains Mono", "Kantumruy Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Khmer", monospace, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* When Khmer language is selected, prioritize Kantumruy Pro for natural Khmer flow */
+  html.lang-km body {
+    font-family: "Kantumruy Pro", "JetBrains Mono", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Khmer", sans-serif;
+    line-height: 1.68;
+    letter-spacing: 0.012em;
+  }
+
+  .dark body {
+    background-color: #0c1017;
+    color: #dfe1e6;
+  }
+
+  /* Form controls and interactive tags inherit custom font-family */
+  input, button, select, textarea, kbd, code, pre {
+    font-family: inherit;
+  }
+
+  /* Monospace elements strictly preserve JetBrains Mono */
+  code, pre, kbd, .font-mono, [class*="font-mono"] {
+    font-family: "JetBrains Mono", monospace !important;
+  }
+
+  /* Optimize legibility for small elements, tags & status badges */
+  .text-\[9px\] {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+  .text-\[10px\] {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    font-weight: 500;
+  }
+  .text-\[11px\] {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    font-weight: 500;
+  }
+  .text-xs {
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+  }
+  .text-sm {
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Khmer micro-typography enhancements */
+  html.lang-km .text-\[9px\] {
+    font-size: 11.5px !important;
+    line-height: 1.45 !important;
+  }
+  html.lang-km .text-\[10px\] {
+    font-size: 12.5px !important;
+    line-height: 1.5 !important;
+    font-weight: 500;
+  }
+  html.lang-km .text-\[11px\] {
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+    font-weight: 500;
+  }
+  html.lang-km .text-xs {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  html.lang-km .text-sm {
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+  }
+}
+
+/* ==========================================================
+   JIRA CLOUD LIGHT THEME COMPREHENSIVE OVERRIDES
+   Active when NOT .dark (or when .light is present)
+   ========================================================== */
+html:not(.dark),
+html.light {
+  /* Base body & main wrapper */
+  body,
+  .min-h-screen,
+  [class*="min-h-screen"] {
+    background-color: #f4f5f7 !important;
+    color: #172b4d !important;
+  }
+
+  /* --------------------------------------------------------
+     1. SURFACES: Page Canvas & Backgrounds
+     -------------------------------------------------------- */
+  [class*="bg-[#070d19]"],
+  [class*="bg-[#0a1424]"],
+  [class*="bg-[#0c1017]"],
+  [class*="bg-[#0c1018]"],
+  [class*="bg-[#0c1424]"],
+  [class*="bg-[#0d1017]"],
+  [class*="bg-[#0d1117]"],
+  [class*="bg-[#0f131d]"],
+  [class*="bg-[#10141e]"],
+  main {
+    background-color: #f4f5f7 !important;
+  }
+
+  /* --------------------------------------------------------
+     2. SURFACES: Primary White Cards, Headers, Modals & Menus
+     -------------------------------------------------------- */
+  header,
+  [class*="bg-[#161a23]"],
+  [class*="bg-[#161b26]"],
+  [class*="bg-[#141923]"],
+  [class*="bg-[#181d28]"],
+  [class*="bg-[#111c2e]"],
+  [class*="bg-[#151a26]"],
+  [class*="bg-[#1b212e]"],
+  [class*="bg-[#161b22]"],
+  [class*="bg-[#161c27]"],
+  [class*="bg-[#161c28]"],
+  [class*="bg-[#171d2b]"],
+  [class*="bg-[#172030]"],
+  [class*="bg-[#181d2a]"],
+  [class*="bg-[#181d2c]"],
+  [class*="bg-[#181e2b]"],
+  [class*="bg-[#181f2e]"],
+  [class*="bg-[#18202f]"],
+  [class*="bg-[#182538]"],
+  [class*="bg-[#19152b]"],
+  [class*="bg-[#192030]"],
+  [class*="bg-[#1b2030]"],
+  [class*="bg-[#1b212f]"],
+  [class*="bg-[#1b2232]"] {
+    background-color: #ffffff !important;
+    border-color: #dfe1e6 !important;
+  }
+
+  /* --------------------------------------------------------
+     3. SURFACES: Secondary Containers, Tracks & Sidebars
+     -------------------------------------------------------- */
+  aside,
+  [class*="bg-[#11151f]"],
+  [class*="bg-[#111520]"],
+  [class*="bg-[#121620]"],
+  [class*="bg-[#121622]"],
+  [class*="bg-[#0e1726]"],
+  [class*="bg-[#101b17]"],
+  [class*="bg-[#1c1417]"],
+  [class*="bg-[#10141f]"] {
+    background-color: #f8fafc !important;
+    border-color: #dfe1e6 !important;
+  }
+
+  /* --------------------------------------------------------
+     4. SURFACES: Chips, Pill Badges, Inner Bars & Subtle Controls
+     -------------------------------------------------------- */
+  [class*="bg-[#1a202e]"],
+  [class*="bg-[#1a2130]"],
+  [class*="bg-[#1a2233]"],
+  [class*="bg-[#1c2230]"],
+  [class*="bg-[#1e2333]"],
+  [class*="bg-[#1e2433]"],
+  [class*="bg-[#1e2436]"],
+  [class*="bg-[#1e2538]"],
+  [class*="bg-[#1e2638]"],
+  [class*="bg-[#1f2637]"],
+  [class*="bg-[#1f2638]"],
+  [class*="bg-[#1f2937]"],
+  [class*="bg-[#1f2f4e]"],
+  [class*="bg-[#201934]"],
+  [class*="bg-[#202738]"],
+  [class*="bg-[#20293d]"],
+  [class*="bg-[#22273b]"],
+  [class*="bg-[#222a3d]"],
+  [class*="bg-[#232a3d]"],
+  [class*="bg-[#232c40]"],
+  [class*="bg-[#242b3d]"],
+  [class*="bg-[#252d40]"],
+  [class*="bg-[#252f44]"],
+  [class*="bg-[#262c3f]"],
+  [class*="bg-[#273148]"],
+  [class*="bg-[#282e42]"],
+  [class*="bg-[#283044]"],
+  [class*="bg-[#283046]"],
+  [class*="bg-[#28324a]"],
+  [class*="bg-[#2a3650]"],
+  [class*="bg-[#2b3550]"],
+  [class*="bg-[#2b3752]"],
+  [class*="bg-[#2c334d]"],
+  [class*="bg-[#2e374f]"],
+  [class*="bg-[#16233b]"],
+  [class*="bg-[#1d2e4d]"] {
+    background-color: #ebecf0 !important;
+    border-color: #dfe1e6 !important;
+  }
+
+  /* --------------------------------------------------------
+     5. BORDERS: Clean Jira Neutral Border (#dfe1e6)
+     -------------------------------------------------------- */
+  header,
+  aside,
+  [class*="border-[#10141e]"],
+  [class*="border-[#181d28]"],
+  [class*="border-[#191f2e]"],
+  [class*="border-[#1b2233]"],
+  [class*="border-[#1d2436]"],
+  [class*="border-[#1e2333]"],
+  [class*="border-[#1e2436]"],
+  [class*="border-[#1e2536]"],
+  [class*="border-[#1e2538]"],
+  [class*="border-[#222426]"],
+  [class*="border-[#22273b]"],
+  [class*="border-[#22283a]"],
+  [class*="border-[#22283b]"],
+  [class*="border-[#22293d]"],
+  [class*="border-[#223554]"],
+  [class*="border-[#232a3d]"],
+  [class*="border-[#242b3d]"],
+  [class*="border-[#242c3f]"],
+  [class*="border-[#242c40]"],
+  [class*="border-[#252c40]"],
+  [class*="border-[#252f44]"],
+  [class*="border-[#262c3f]"],
+  [class*="border-[#273148]"],
+  [class*="border-[#27324c]"],
+  [class*="border-[#283046]"],
+  [class*="border-[#283248]"],
+  [class*="border-[#2b354d]"],
+  [class*="border-[#2b3650]"],
+  [class*="border-[#2c354d]"],
+  [class*="border-[#2d4369]"],
+  [class*="border-[#2e374f]"],
+  [class*="border-[#2e3852]"],
+  [class*="border-[#30363d]"],
+  [class*="border-[#313c57]"],
+  [class*="border-[#333c56]"],
+  [class*="border-[#343e5c]"],
+  [class*="border-[#374564]"],
+  [class*="border-[#38435d]"],
+  [class*="border-[#384564]"],
+  [class*="border-[#3b4460]"],
+  [class*="border-[#3b4764]"],
+  [class*="border-[#3d4b6c]"],
+  [class*="border-[#758195]"],
+  [class*="divide-[#1e2436]"] > * + *,
+  [class*="divide-[#1e2536]"] > * + *,
+  [class*="divide-[#22273b]"] > * + *,
+  [class*="divide-[#22283b]"] > * + * {
+    border-color: #dfe1e6 !important;
+  }
+
+  /* --------------------------------------------------------
+     6. TYPOGRAPHY: High-Contrast Jira Typography
+     -------------------------------------------------------- */
+  [class*="text-[#dfe1e6]"],
+  [class*="text-[#c7d1db]"],
+  [class*="text-[#c2cddc]"],
+  [class*="text-[#c8d1dc]"],
+  [class*="text-[#e6edf3]"] {
+    color: #172b4d !important;
+  }
+
+  [class*="text-[#8c9bab]"],
+  [class*="text-[#9fadbc]"],
+  [class*="text-[#738496]"],
+  [class*="text-[#8b949e]"] {
+    color: #5e6c84 !important;
+  }
+
+  [class*="text-[#626f86]"],
+  [class*="text-[#627084]"],
+  [class*="text-[#484f58]"],
+  [class*="text-[#394258]"],
+  [class*="text-[#333c56]"] {
+    color: #6b778c !important;
+  }
+
+  [class*="text-[#579dff]"],
+  [class*="text-[#85b8ff]"],
+  [class*="text-[#a5d6ff]"] {
+    color: #0c66e4 !important;
+  }
+
+  [class*="text-[#4bce97]"] {
+    color: #00875a !important;
+  }
+
+  [class*="text-[#c084fc]"],
+  [class*="text-[#d2a8ff]"] {
+    color: #6554c0 !important;
+  }
+
+  /* Headings */
+  h1:not([class*="text-white"]),
+  h2:not([class*="text-white"]),
+  h3:not([class*="text-white"]),
+  h4:not([class*="text-white"]),
+  h5:not([class*="text-white"]),
+  h6:not([class*="text-white"]) {
+    color: #172b4d !important;
+  }
+
+  /* Headings on cards or login forms */
+  .text-white:not(button):not(button *):not(a[class*="bg-"]):not(a[class*="bg-"] *):not([class*="bg-blue"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-teal"]):not([class*="bg-purple"]):not([class*="bg-indigo"]) {
+    color: #172b4d !important;
+  }
+
+  /* --------------------------------------------------------
+     7. HERO GRADIENT BANNERS IN LIGHT MODE
+     -------------------------------------------------------- */
+  [class*="bg-gradient-to-r"][class*="indigo-950"],
+  [class*="bg-gradient-to-r"][class*="blue-950"] {
+    background: linear-gradient(135deg, #eef2ff 0%, #ffffff 50%, #f0f7ff 100%) !important;
+    border-color: #c7d2fe !important;
+  }
+  [class*="bg-gradient-to-r"][class*="emerald-950"] {
+    background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 50%, #f0fdf4 100%) !important;
+    border-color: #a7f3d0 !important;
+  }
+  [class*="bg-gradient-to-r"][class*="teal-950"] {
+    background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 50%, #f4fbfb 100%) !important;
+    border-color: #99f6e4 !important;
+  }
+  [class*="bg-gradient-to-r"][class*="purple-950"] {
+    background: linear-gradient(135deg, #faf5ff 0%, #ffffff 50%, #fdf4ff 100%) !important;
+    border-color: #e9d5ff !important;
+  }
+
+  /* --------------------------------------------------------
+     8. CODE BLOCKS & TERMINAL MONOSPACE DISPLAY
+     -------------------------------------------------------- */
+  [class*="bg-[#0b0e14]"],
+  [class*="bg-[#0c0f17]"],
+  [class*="bg-[#0d1017]"] {
+    background-color: #161b26 !important;
+    border-color: #2e374f !important;
+    color: #4ade80 !important;
+  }
+  [class*="bg-[#0b0e14]"] pre,
+  [class*="bg-[#0b0e14]"] code,
+  [class*="bg-[#0b0e14]"] div,
+  [class*="bg-[#0c0f17]"] pre,
+  [class*="bg-[#0c0f17]"] code {
+    color: #4ade80 !important;
+  }
+
+  /* --------------------------------------------------------
+     9. FORM CONTROLS: Inputs, Selects & Textareas
+     -------------------------------------------------------- */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea {
+    background-color: #ffffff !important;
+    border: 1px solid #dfe1e6 !important;
+    color: #172b4d !important;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+  select:focus,
+  textarea:focus {
+    border-color: #4c9aff !important;
+    box-shadow: 0 0 0 2px rgba(76, 154, 255, 0.25) !important;
+    outline: none !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #8993a4 !important;
+  }
+
+  /* --------------------------------------------------------
+     10. INTERACTION: Hover States
+     -------------------------------------------------------- */
+  [class*="hover:bg-[#181d2c]"]:hover,
+  [class*="hover:bg-[#1a202e]"]:hover,
+  [class*="hover:bg-[#1a2130]"]:hover,
+  [class*="hover:bg-[#1c212e]"]:hover,
+  [class*="hover:bg-[#1e2333]"]:hover,
+  [class*="hover:bg-[#1f2638]"]:hover,
+  [class*="hover:bg-[#202738]"]:hover,
+  [class*="hover:bg-[#22273b]"]:hover,
+  [class*="hover:bg-[#282e42]"]:hover,
+  [class*="hover:bg-[#283044]"]:hover,
+  [class*="hover:bg-[#16233b]"]:hover,
+  [class*="hover:bg-[#161c2b]"]:hover {
+    background-color: #ebecf0 !important;
+  }
+
+  [class*="hover:text-[#dfe1e6]"]:hover {
+    color: #172b4d !important;
+  }
+
+  /* --------------------------------------------------------
+     11. TABLES: Crisp High-Contrast Table Rows
+     -------------------------------------------------------- */
+  table thead,
+  table thead tr {
+    background-color: #f4f5f7 !important;
+    border-color: #dfe1e6 !important;
+  }
+  table thead th {
+    color: #5e6c84 !important;
+    border-color: #dfe1e6 !important;
+  }
+  table tbody tr {
+    background-color: #ffffff !important;
+    border-color: #dfe1e6 !important;
+  }
+  table tbody tr:hover {
+    background-color: #f8fafc !important;
+  }
+  table tbody td {
+    color: #172b4d !important;
+  }
+
+  /* --------------------------------------------------------
+     12. KANBAN BOARD & CARDS
+     -------------------------------------------------------- */
+  /* Kanban columns */
+  .grid-cols-4 > div[class*="border"],
+  .grid-cols-1 > div[class*="border"] {
+    background-color: #f4f5f7 !important;
+    border-color: #dfe1e6 !important;
+  }
+
+  /* Column header */
+  .grid-cols-4 > div > div:first-child,
+  .grid-cols-1 > div > div:first-child {
+    background-color: #ebecf0 !important;
+    border-color: #dfe1e6 !important;
+  }
+
+  /* Kanban issue card */
+  [draggable="true"] {
+    background-color: #ffffff !important;
+    border: 1px solid #dfe1e6 !important;
+    box-shadow: 0 1px 3px rgba(9, 30, 66, 0.08), 0 0 1px rgba(9, 30, 66, 0.2) !important;
+  }
+
+  [draggable="true"]:hover {
+    background-color: #fafbfc !important;
+    box-shadow: 0 3px 6px rgba(9, 30, 66, 0.12), 0 0 1px rgba(9, 30, 66, 0.3) !important;
+    border-color: #c1c7d0 !important;
+  }
+
+  /* --------------------------------------------------------
+     13. BADGES & COLOR ACCENTS
+     -------------------------------------------------------- */
+  /* Blue Badges / Notices */
+  [class*="bg-blue-500/"],
+  [class*="bg-blue-950/"],
+  [class*="bg-[#0c66e4]/15"],
+  [class*="bg-[#0c66e4]/20"] {
+    background-color: #deebff !important;
+    border-color: #b3d4ff !important;
+    color: #0052cc !important;
+  }
+
+  [class*="text-blue-300"],
+  [class*="text-blue-400"] {
+    color: #0052cc !important;
+  }
+
+  /* Emerald / Green Badges */
+  [class*="bg-emerald-500/"],
+  [class*="bg-emerald-950/"] {
+    background-color: #e3fcef !important;
+    border-color: #abf5d1 !important;
+    color: #006644 !important;
+  }
+
+  [class*="text-emerald-300"],
+  [class*="text-emerald-400"] {
+    color: #006644 !important;
+  }
+
+  /* Amber / Warning Badges */
+  [class*="bg-amber-500/"],
+  [class*="bg-amber-950/"] {
+    background-color: #fffae6 !important;
+    border-color: #fff0b3 !important;
+    color: #ff8b00 !important;
+  }
+
+  [class*="text-amber-300"],
+  [class*="text-amber-400"] {
+    color: #ff8b00 !important;
+  }
+
+  /* Rose / Red Badges */
+  [class*="bg-rose-500/"],
+  [class*="bg-red-950/"] {
+    background-color: #ffebe6 !important;
+    border-color: #ffbdad !important;
+    color: #de350b !important;
+  }
+
+  [class*="text-rose-300"],
+  [class*="text-rose-400"],
+  [class*="text-red-200"],
+  [class*="text-red-400"] {
+    color: #de350b !important;
+  }
+
+  /* Specific border overrides for colored alert boxes */
+  [class*="border-red-800"],
+  [class*="border-red-900"] {
+    border-color: #ffbdad !important;
+  }
+  [class*="border-emerald-800"],
+  [class*="border-emerald-900"] {
+    border-color: #abf5d1 !important;
+  }
+  [class*="border-amber-800"],
+  [class*="border-amber-900"] {
+    border-color: #fff0b3 !important;
+  }
+  [class*="border-blue-900"] {
+    border-color: #b3d4ff !important;
+  }
+
+  /* Hover states for danger/red actions */
+  [class*="hover:bg-red-950/"]:hover {
+    background-color: #ffebe6 !important;
+    color: #de350b !important;
+  }
+
+  /* Purple Badges */
+  [class*="bg-purple-500/"],
+  [class*="bg-indigo-500/"] {
+    background-color: #eae6ff !important;
+    border-color: #c0b6f2 !important;
+    color: #403294 !important;
+  }
+
+  [class*="text-purple-300"],
+  [class*="text-purple-400"],
+  [class*="text-indigo-300"],
+  [class*="text-indigo-400"] {
+    color: #403294 !important;
+  }
+
+  /* --------------------------------------------------------
+     14. BUTTONS: Preserve Bright White Text on Primary Buttons
+     -------------------------------------------------------- */
+  button.bg-\[\#0c66e4\],
+  button.bg-\[\#0052cc\],
+  button.bg-blue-600,
+  button.bg-emerald-600,
+  button.bg-teal-600,
+  button.bg-purple-600,
+  button.bg-indigo-600,
+  button.bg-amber-600,
+  button.bg-rose-600,
+  button.bg-sky-600,
+  a.bg-\[\#0c66e4\],
+  a.bg-\[\#0052cc\],
+  a.bg-teal-600,
+  a.bg-blue-600 {
+    color: #ffffff !important;
+  }
+
+  button.bg-\[\#0c66e4\] *,
+  button.bg-\[\#0052cc\] *,
+  button.bg-blue-600 *,
+  button.bg-emerald-600 *,
+  button.bg-teal-600 *,
+  button.bg-purple-600 *,
+  button.bg-indigo-600 *,
+  button.bg-amber-600 *,
+  button.bg-rose-600 *,
+  button.bg-sky-600 *,
+  a.bg-\[\#0c66e4\] *,
+  a.bg-\[\#0052cc\] *,
+  a.bg-teal-600 *,
+  a.bg-blue-600 * {
+    color: #ffffff !important;
+  }
+
+  /* --------------------------------------------------------
+     15. MODALS, POPOVERS & SHADOWS
+     -------------------------------------------------------- */
+  /* Backdrop */
+  .fixed.inset-0[class*="bg-black"] {
+    background-color: rgba(9, 30, 66, 0.54) !important;
+  }
+
+  /* Modal Windows */
+  .fixed.inset-0 > div[class*="bg-"],
+  .fixed.inset-0 > div > div[class*="bg-"] {
+    background-color: #ffffff !important;
+    border: 1px solid #dfe1e6 !important;
+    box-shadow: 0 8px 32px rgba(9, 30, 66, 0.2) !important;
+  }
+
+  .shadow-2xl,
+  .shadow-xl,
+  .shadow-lg {
+    box-shadow: 0 4px 20px rgba(9, 30, 66, 0.12) !important;
+  }
+
+  /* --------------------------------------------------------
+     16. REACT FLOW ERD CANVAS IN LIGHT MODE
+     -------------------------------------------------------- */
+  .react-flow__background {
+    background-color: #f8fafc !important;
+  }
+  .react-flow__controls {
+    background-color: #ffffff !important;
+    border: 1px solid #dfe1e6 !important;
+    box-shadow: 0 2px 8px rgba(9, 30, 66, 0.1) !important;
+  }
+  .react-flow__controls-button {
+    background-color: #ffffff !important;
+    fill: #172b4d !important;
+    border-bottom: 1px solid #dfe1e6 !important;
+  }
+
+  /* --------------------------------------------------------
+     17. GANTT CHART SPECIFIC REFINEMENTS
+     -------------------------------------------------------- */
+  /* Gantt canvas area */
+  [ref="timelineCanvasRef"],
+  .min-h-full.relative {
+    background-color: #ffffff !important;
+  }
+
+  /* Gantt task bar text */
+  .h-7[class*="bg-gradient"] span,
+  .h-7[class*="bg-gradient"] svg {
+    color: #ffffff !important;
+  }
+
+  /* Gantt dependency floating badge tag */
+  svg g rect[fill="#0f172a"] {
+    fill: #ffffff !important;
+    stroke: #dfe1e6 !important;
+  }
+
+  /* --------------------------------------------------------
+     18. SCROLLBAR
+     -------------------------------------------------------- */
+  ::-webkit-scrollbar-thumb {
+    background: #c1c7d0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a5b2c6;
+  }
+}
+
+/* ==========================================================
+   DARK THEME SCROLLBAR & BASE
+   ========================================================== */
+.dark ::-webkit-scrollbar-thumb {
+  background: #282e3f;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3b4256;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Utility to hide scrollbars while allowing smooth scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

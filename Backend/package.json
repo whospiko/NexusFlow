@@ -1,0 +1,29 @@
+{
+  "name": "nexusflow-backend",
+  "version": "1.0.0",
+  "description": "NexusFlow - Agile Project Management & Data Architecture REST API",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:init": "node src/db/init.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "docx": "^9.15.4",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "node-sql-parser": "^5.4.0",
+    "nodemailer": "^10.5.0",
+    "pg": "^8.13.1",
+    "puppeteer-core": "^25.17.0",
+    "socket.io": "^4.8.1",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^8.0.2"
+  }
+}
